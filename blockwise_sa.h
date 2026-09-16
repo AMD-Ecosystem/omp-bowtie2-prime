@@ -85,7 +85,7 @@ public:
 	            bool __verbose = false,
 	            ostream& __logger = cout) :
 		_text(__text),
-		_bucketSz(max<TIndexOffU>(__bucketSz, 2u)),
+		_bucketSz(std::max<TIndexOffU>(__bucketSz, 2u)),
 		_sanityCheck(__sanityCheck),
 		_passMemExc(__passMemExc),
 		_verbose(__verbose),
@@ -292,7 +292,7 @@ public:
 		size_t len = text.length();
 		// _sampleSuffs and _itrBucket are in memory at the peak
 		size_t bsz = bucketSz;
-		size_t sssz = len / max<TIndexOffU>(bucketSz-1, 1);
+		size_t sssz = len / std::max<TIndexOffU>(bucketSz-1, 1);
 		AutoArray<TIndexOffU> tmp(bsz + sssz + (1024 * 1024 /*out of caution*/), EBWT_CAT);
 		return bsz;
 	}

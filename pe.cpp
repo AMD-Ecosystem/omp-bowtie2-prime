@@ -81,8 +81,8 @@ int PairedEndPolicy::peClassifyPair(
 		oneLeft = !fw1;
 	}
 	// Calc implied fragment size
-	int64_t fraglo = min<int64_t>(off1, off2);
-	int64_t fraghi = max<int64_t>(off1+len1, off2+len2);
+	int64_t fraglo = std::min<int64_t>(off1, off2);
+	int64_t fraghi = std::max<int64_t>(off1+len1, off2+len2);
 	assert_gt(fraghi, fraglo);
 	size_t frag = (size_t)(fraghi - fraglo);
 	if(frag > maxfrag || frag < minfrag) {
@@ -251,7 +251,7 @@ bool PairedEndPolicy::otherMate(
 		// What if overlapping alignments are not allowed?
 		if(!olapOk_) {
 			// RHS can't be flush with or to the right of off
-			orr = min<int64_t>(orr, off-1);
+			orr = std::min<int64_t>(orr, off-1);
 			if(orr < olr) olr = orr;
 			assert_leq(oll, olr);
 			assert_leq(orl, orr);
@@ -260,14 +260,14 @@ bool PairedEndPolicy::otherMate(
 		// What if dovetail alignments are not allowed?
 		else if(!dovetailOk_) {
 			// RHS can't be past off+alen-1
-			orr = min<int64_t>(orr, off + alen - 1);
+			orr = std::min<int64_t>(orr, off + alen - 1);
 			assert_leq(oll, olr);
 			assert_leq(orl, orr);
 		}
 		// What if flipped alignments are not allowed?
 		else if(!flippingOk_ && maxalcols != -1) {
 			// RHS can't be right of ???
-			orr = min<int64_t>(orr, off + alen - 1 + (maxalcols-1));
+			orr = std::min<int64_t>(orr, off + alen - 1 + (maxalcols-1));
 			assert_leq(oll, olr);
 			assert_leq(orl, orr);
 		}
@@ -323,7 +323,7 @@ bool PairedEndPolicy::otherMate(
 		// What if overlapping alignments are not allowed?
 		if(!olapOk_) {
 			// LHS can't be left of off+alen
-			oll = max<int64_t>(oll, off+alen);
+			oll = std::max<int64_t>(oll, off+alen);
 			if(oll > orl) orl = oll;
 			assert_leq(oll, olr);
 			assert_leq(orl, orr);
@@ -332,14 +332,14 @@ bool PairedEndPolicy::otherMate(
 		// What if dovetail alignments are not allowed?
 		else if(!dovetailOk_) {
 			// LHS can't be left of off
-			oll = max<int64_t>(oll, off);
+			oll = std::max<int64_t>(oll, off);
 			assert_leq(oll, olr);
 			assert_leq(orl, orr);
 		}
 		// What if flipped alignments are not allowed?
 		else if(!flippingOk_ && maxalcols != -1) {
 			// LHS can't be left of off - maxalcols + 1
-			oll = max<int64_t>(oll, off - maxalcols + 1);
+			oll = std::max<int64_t>(oll, off - maxalcols + 1);
 			assert_leq(oll, olr);
 			assert_leq(orl, orr);
 		}

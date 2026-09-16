@@ -68,7 +68,7 @@ TIndexOffU binarySASearch(
 		if(suf == qry) {
 			return std::numeric_limits<TIndexOffU>::max(); // query matches an elt of sa
 		}
-		TIndexOffU lcp = min(lLcp, rLcp);
+		TIndexOffU lcp = std::min(lLcp, rLcp);
 #ifndef NDEBUG
 		if(sstr_suf_upto_neq(host, qry, host, suf, lcp)) {
 			assert(0);
@@ -84,12 +84,12 @@ TIndexOffU binarySASearch(
 		if((fell && qry+lcp == hostLen) || (!fell && host[suf+lcp] < host[qry+lcp])) {
 			// Query is greater than sa elt
 			l = m;                 // update left bound
-			lLcp = max(lLcp, lcp); // update left lcp
+			lLcp = std::max(lLcp, lcp); // update left lcp
 		}
 		else if((fell && suf+lcp == hostLen) || (!fell && host[suf+lcp] > host[qry+lcp])) {
 			// Query is less than sa elt
 			r = m;                 // update right bound
-			rLcp = max(rLcp, lcp); // update right lcp
+			rLcp = std::max(rLcp, lcp); // update right lcp
 		} else {
 			assert(false); // Must be one or the other!
 		}
