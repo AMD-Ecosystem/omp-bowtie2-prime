@@ -92,8 +92,8 @@ bool DynProgFramer::frameSeedExtensionRect(
 	assert_gt(reflen, 0);
 	// Set N, the maximum number of reference or read gaps permitted, whichever
 	// is larger.  Also, enforce ceiling: can't be larger than 'maxhalf'.
-	size_t maxgap = max(maxrdgap, maxrfgap);
-	maxgap = min(maxgap, maxhalf);
+	size_t maxgap = std::max(maxrdgap, maxrfgap);
+	maxgap = std::min(maxgap, maxhalf);
 	// Leave room for "LHS gap" and "LHS extra" diagonals
 	int64_t refl = off - 2 * maxgap;               // inclusive
 	// Leave room for "RHS gap" and "RHS extra" diagonals
@@ -195,8 +195,8 @@ bool DynProgFramer::frameFindMateAnchorLeftRect(
 	assert_gt(rdlen, 0);
 	assert_gt(reflen, 0);
 	size_t triml = 0, trimr = 0;
-	size_t maxgap = max(maxrdgap, maxrfgap);
-	maxgap = max(maxgap, maxhalf);
+	size_t maxgap = std::max(maxrdgap, maxrfgap);
+	maxgap = std::max(maxgap, maxhalf);
 	// Amount of padding we have to add to account for the fact that alignments
 	// ending between en_left/en_right might start in various columns in the
 	// first row
@@ -309,8 +309,8 @@ bool DynProgFramer::frameFindMateAnchorRightRect(
 	assert_gt(rdlen, 0);
 	assert_gt(reflen, 0);
 	size_t triml = 0, trimr = 0;
-	size_t maxgap = max(maxrdgap, maxrfgap);
-	maxgap = max(maxgap, maxhalf);
+	size_t maxgap = std::max(maxrdgap, maxrfgap);
+	maxgap = std::max(maxgap, maxhalf);
 	int64_t pad_left = maxgap;
 	int64_t pad_right = maxgap;
 	int64_t st_left = ll;

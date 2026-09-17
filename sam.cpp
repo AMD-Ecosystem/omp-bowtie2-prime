@@ -558,7 +558,7 @@ void SamConfig::printAlignedOptFlags(
 		}
 		TAlScore diff[2] = {MN, MN};
 		for(int self = 0; self < 2; self++) {
-			const TAlScore mx = max(secondBest[self], thirdBest[self]);
+			const TAlScore mx = std::max(secondBest[self], thirdBest[self]);
 			if(best[self].score() > MN && mx > MN) {
 				diff[self] = best[self].score() - mx;
 			}

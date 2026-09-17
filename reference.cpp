@@ -481,7 +481,7 @@ int BitPairReference::getStretch(
 		off += recs_[i].off; // skip Ns at beginning of stretch
 		assert_gt(count, 0);
 		if(toff < off) {
-			size_t cpycnt = min((size_t)(off - toff), count);
+			size_t cpycnt = std::min((size_t)(off - toff), count);
 			memset(&dest[cur], 4, cpycnt);
 			count -= cpycnt;
 			toff += cpycnt;
@@ -527,7 +527,7 @@ int BitPairReference::getStretch(
 					uint64_t bufOffU32 = bufOff >> 2;
 					uint64_t countLim = count >> 2;
 					uint64_t offLim = ((off - (toff + 4)) >> 2);
-					uint64_t lim = min(countLim, offLim);
+					uint64_t lim = std::min(countLim, offLim);
 					// Do the fast thing for as far as possible
 					for(uint64_t j = 0; j < lim; j++) {
 						// Lots of cache misses on the following line

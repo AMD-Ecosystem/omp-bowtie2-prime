@@ -348,7 +348,7 @@ void sanityCheckOrderedSufs(
 	size_t upper = OFF_MASK)
 {
 	assert_lt(s[0], hlen);
-	upper = min<size_t>(upper, slen-1);
+	upper = std::min<size_t>(upper, slen-1);
 	for(size_t i = lower; i < upper; i++) {
 		// Allow s[i+t] to point off the end of the string; this is
 		// convenient for some callers
@@ -458,8 +458,8 @@ void mkeyQSortSuf(
 	assert_lt(d-c, n); // they can't all have been > pivot
 	assert_lt(b-a, n); // they can't all have been < pivot
 	assert(assertPartitionedSuf(host, s, slen, hi, v, begin, end, depth));  // check pre-=-swap invariant
-	r = min(a-begin, b-a); VECSWAP(s, begin, b-r,   r);  // swap left = to center
-	r = min(d-c, end-d-1); VECSWAP(s, b,     end-r, r);  // swap right = to center
+	r = std::min(a-begin, b-a); VECSWAP(s, begin, b-r,   r);  // swap left = to center
+	r = std::min(d-c, end-d-1); VECSWAP(s, b,     end-r, r);  // swap right = to center
 	assert(assertPartitionedSuf2(host, s, slen, hi, v, begin, end, depth)); // check post-=-swap invariant
 	r = b-a; // r <- # of <'s
 	if(r > 0) {
@@ -596,8 +596,8 @@ void mkeyQSortSuf2(
         assert_lt(/*e*/d-c, n); // they can't all have been > pivot
         assert_lt(b-a, n); // they can't all have been < pivot
         assert(assertPartitionedSuf(host, s, slen, hi, v, begin, end, depth));  // check pre-=-swap invariant
-        r = min(a-begin, b-a); VECSWAP2(s, s2, begin, b-r,   r);  // swap left = to center
-        r = min(d-c, end-d-1); VECSWAP2(s, s2, b,     end-r, r);  // swap right = to center
+        r = std::min(a-begin, b-a); VECSWAP2(s, s2, begin, b-r,   r);  // swap left = to center
+        r = std::min(d-c, end-d-1); VECSWAP2(s, s2, b,     end-r, r);  // swap right = to center
         assert(assertPartitionedSuf2(host, s, slen, hi, v, begin, end, depth)); // check post-=-swap invariant
         r = b-a; // r <- # of <'s
         block_list.expand();
@@ -1212,8 +1212,8 @@ void mkeyQSortSufDcU8(
 	assert(a > begin || c < end-1);                      // there was at least one =s
 	assert_lt(d-c, n); // they can't all have been > pivot
 	assert_lt(b-a, n); // they can't all have been < pivot
-	r = min(a-begin, b-a); VECSWAP(s, begin, b-r,   r);  // swap left = to center
-	r = min(d-c, end-d-1); VECSWAP(s, b,     end-r, r);  // swap right = to center
+	r = std::min(a-begin, b-a); VECSWAP(s, begin, b-r,   r);  // swap left = to center
+	r = std::min(d-c, end-d-1); VECSWAP(s, b,     end-r, r);  // swap right = to center
 	r = b-a; // r <- # of <'s
 	if(r > 0) {
 		MQS_RECURSE_SUF_DC_U8(begin, begin + r, depth); // recurse on <'s

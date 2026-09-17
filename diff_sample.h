@@ -1017,7 +1017,7 @@ uint32_t DifferenceCoverSample<TStr>::tieBreakOff(TIndexOffU i, TIndexOffU j) co
 	assert(isCovered(j+deltaLeft));
 	assert(isCovered(i+deltaRight));
 	assert(isCovered(j+deltaRight));
-	return min(deltaLeft, deltaRight);
+	return std::min(deltaLeft, deltaRight);
 }
 
 #endif /*DIFF_SAMPLE_H_*/

@@ -515,7 +515,7 @@ void Ebwt::readIntoMemory(
 						throw e;
 					}
 					for(TIndexOffU i = 0; i < offsLen; i += blockMaxSzU) {
-						TIndexOffU block = min<TIndexOffU>(blockMaxSzU, offsLen - i);
+						TIndexOffU block = std::min<TIndexOffU>(blockMaxSzU, offsLen - i);
 						size_t r = MM_READ(_in2, (void *)buf, block << (OFF_SIZE/4 + 1));
 						if(r != (size_t)(block << (OFF_SIZE/4 + 1))) {
 							cerr << "Error reading block of _offs[] array: " << r << ", " << (block << (OFF_SIZE/4 + 1)) << endl;

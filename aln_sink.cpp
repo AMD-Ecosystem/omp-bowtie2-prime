@@ -242,7 +242,7 @@ void ReportingState::getReport(
 		} else if(exitConcord_ == ReportingState::EXIT_WITH_ALIGNMENTS) {
 			assert_gt(nconcord_, 0);
 			// <= k at random
-			nconcordAln = min<uint64_t>(nconcord_, p_.khits);
+			nconcordAln = std::min<uint64_t>(nconcord_, p_.khits);
 			return;
 		}
 		assert(!p_.mhitsSet() || nconcord_ <= (uint64_t)p_.mhits+1);
@@ -277,7 +277,7 @@ void ReportingState::getReport(
 	} else if(exitUnpair1_ == ReportingState::EXIT_WITH_ALIGNMENTS) {
 		assert_gt(nunpair1_, 0);
 		// <= k at random
-		nunpair1Aln = min<uint64_t>(nunpair1_, (uint64_t)p_.khits);
+		nunpair1Aln = std::min<uint64_t>(nunpair1_, (uint64_t)p_.khits);
 	}
 	assert(!p_.mhitsSet() || paired_ || nunpair1_ <= (uint64_t)p_.mhits+1);
 
@@ -293,7 +293,7 @@ void ReportingState::getReport(
 	} else if(exitUnpair2_ == ReportingState::EXIT_WITH_ALIGNMENTS) {
 		assert_gt(nunpair2_, 0);
 		// <= k at random
-		nunpair2Aln = min<uint64_t>(nunpair2_, (uint64_t)p_.khits);
+		nunpair2Aln = std::min<uint64_t>(nunpair2_, (uint64_t)p_.khits);
 	}
 	assert(!p_.mhitsSet() || paired_ || nunpair2_ <= (uint64_t)p_.mhits+1);
 }

@@ -1041,7 +1041,7 @@ public:
 				VMSG_NL("bmax according to bmaxSqrtMult setting: " << bmax);
 			}
 			else if(bmaxDivN != OFF_MASK) {
-				bmax = max<TIndexOffU>(jlen / bmaxDivN, 1);
+				bmax = std::max<TIndexOffU>(jlen / bmaxDivN, 1);
 				VMSG_NL("bmax according to bmaxDivN setting: " << bmax);
 			}
 			else {

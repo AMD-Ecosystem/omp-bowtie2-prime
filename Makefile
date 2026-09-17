@@ -54,7 +54,21 @@ CXX := amdclang++
 #CXXFLAGS += -std=c++20 -DFORCE_ALL_OMP -mavx2 -faligned-new -DPRE_LR_SCALAR -DSSE_SCALAR
 #CXXFLAGS += -std=c++20 -DFORCE_ALL_OMP -mavx2 -faligned-new -DSSE_SCALAR -DCPUVECT -DUSE_BUILTIN_SUB_SAT -march=native
 #CXXFLAGS += -std=c++20 -DFORCE_ALL_OMP -mavx2 -faligned-new -DSSE_SCALAR
+# ---------------------------------------------------------------------------
+# Modifications Copyright (C) 2026 Advanced Micro Devices, Inc. All rights reserved.
+# AMD ROCm GPU build toggle.
+#   GPU=1               -> OpenMP target offload build (amdclang++, gfx942 default)
+#   AMDGPU_ARCH=<arch>  -> override offload arch (e.g. gfx950:xnack+); default gfx942:xnack+
+#   default (GPU unset) -> CPU SSE_AVX2 OpenMP build (the parity/golden reference)
+# Requires amdclang++ >= 22.0 / ROCm >= 7.2 (broken __builtin_elementwise_sub_sat floor);
+# run the GPU build with HSA_XNACK=1 OMP_TARGET_OFFLOAD=MANDATORY (USM via -fopenmp-force-usm).
+# ---------------------------------------------------------------------------
+AMDGPU_ARCH ?= gfx942:xnack+
+ifeq (1,$(GPU))
+CXXFLAGS += -std=c++20 -DFORCE_ALL_OMP -mavx2 -faligned-new -DPRE_M11_SCALAR -DSSE_SCALAR -DNO_CHECK_PRINT -DOMPGPU -fopenmp-offload-mandatory --offload-arch=$(AMDGPU_ARCH) -fopenmp-force-usm
+else
 CXXFLAGS += -std=c++20 -DFORCE_ALL_OMP -mavx2 -faligned-new -DSSE_AVX2
+endif
 
 #
 # GPU-enabled
@@ -223,6 +237,13 @@ DP_CPPS :=
 
 BUILD_CPPS := 
 BUILD_CPPS_MAIN := $(BUILD_CPPS) 
+# Modifications Copyright (C) 2026 Advanced Micro Devices, Inc. All rights reserved.
+# Re-enable bowtie2-build-* on the GPU branch: link the shared translation units
+# (bt2_build.cpp is not a unity source and the build target was dropped from the
+# default list).
+BUILD_CPPS_MAIN += bowtie_build_main.cpp edit.cpp ds.cpp ccnt_lut.cpp ref_read.cpp \
+	alphabet.cpp shmem.cpp bt2_locks.cpp bt2_idx.cpp bt2_io.cpp bt2_util.cpp \
+	reference.cpp multikey_qsort.cpp random_source.cpp diff_sample.cpp
 
 SEARCH_FRAGMENTS := $(wildcard search_*_phase*.c)
 VERSION := $(shell cat BOWTIE2_VERSION)

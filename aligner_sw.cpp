@@ -142,10 +142,10 @@ bool SwAligner::initRef(
 	// Figure the number of Ns we're going to add to either side
 	size_t leftNs  =
 		(rfi >= 0               ? 0 : (size_t)std::abs(static_cast<long>(rfi)));
-	leftNs = min(leftNs, rflen);
+	leftNs = std::min(leftNs, rflen);
 	size_t rightNs =
 		(rff <= (TRefOff)reflen ? 0 : (size_t)std::abs(static_cast<long>(rff - reflen)));
-	rightNs = min(rightNs, rflen);
+	rightNs = std::min(rightNs, rflen);
 	// rflenInner = length of just the portion that doesn't overhang ref ends
 	assert_geq(rflen, leftNs + rightNs);
 	const size_t rflenInner = rflen - (leftNs + rightNs);
